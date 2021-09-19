@@ -7,7 +7,7 @@ var playerMoney = 10;
 //Enemy Stats
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
-var enemyAttack = 50;
+var enemyAttack = 12;
 
 //Game States
 //"WIN" - pLayer robot has defeated all enemy-robots
@@ -82,6 +82,12 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50;
             fight(pickedEnemyName);
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         }
         //If player dies, end game
         else {
@@ -110,4 +116,45 @@ var endGame = function() {
         }
 };
 
+//Shop function
+var shop = function () {
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the sotre? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+
+    switch (shopOptionPrompt) {
+        
+        case "refill":
+        case "REFILL":
+            if (playerMoney >= 7) {
+                window.alert("Refilling player's health by 20 for 7 dollars.");
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!")
+            }
+            break;
+        
+        case "upgrade":
+        case "UPGRADE":
+            if (playerMoney >= 7) {
+                window.alert("Upgrading players attack by 6 for 7 dollars.");
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!")
+            }
+            break;
+
+        case "leave":
+        case "LEAVE":
+            window.alert("Leaving the store.");
+            break;
+
+        default:
+            window.alert("You did not pick a valid option. Please try again.")
+            shop();
+            break;
+    }
+};
 startGame();
